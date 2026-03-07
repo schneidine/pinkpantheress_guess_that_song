@@ -4,7 +4,7 @@ Submitted by: **Schneidine Dorelien**
 
 This web app: **Allows users to test their knowledge of PinkPantheress lyrics through an interactive guessing game with smooth animations and integrated Spotify previews!**
 
-Time spent: **8** hours spent in total
+Time spent: **5** hours spent in total
 
 ## Required Features
 
@@ -49,9 +49,9 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented required features:
+Here's a walkthrough of the implemented required features:
 
-<img src='https://imgur.com/a/wjgI5Vo' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/dtDbBZF.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with imgur and ezgif.com
 
