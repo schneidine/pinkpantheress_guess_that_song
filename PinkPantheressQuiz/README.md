@@ -4,7 +4,7 @@ Submitted by: **Schneidine Dorelien**
 
 This web app: **Allows users to test their knowledge of PinkPantheress lyrics through an interactive guessing game with smooth animations and integrated Spotify previews!**
 
-Time spent: **8** hours spent in total
+Time spent: **5** hours spent in total
 
 ## Required Features
 
