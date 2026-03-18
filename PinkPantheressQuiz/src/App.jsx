@@ -53,6 +53,7 @@ function App() {
 
       <div className="card-container">
         <Card 
+          key={count}
           cardNum={count} 
           showAnswer={showAnswer} 
           isAnimating={isAnimating}

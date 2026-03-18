@@ -1,8 +1,9 @@
 import './App.css'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 function Card({ cardNum, showAnswer, isAnimating, animationType }){
-    const [currentAnimation, setCurrentAnimation] = useState('')
+    const [guessInput, setGuessInput] = useState('')
+    const [guessFeedback, setGuessFeedback] = useState('')
     
     const lyricsToSpotify = {
         "A flower, I'm growing, wilted today, I choose it To leave you tonight, you don't want it, do you?": "https://open.spotify.com/embed/track/4icnlpI5IbZcRO9mpixVVW?utm_source=generator&theme=0",
@@ -16,25 +17,62 @@ function Card({ cardNum, showAnswer, isAnimating, animationType }){
         "Take a look inside your heart, is there any room for me?": "https://open.spotify.com/embed/track/3NanY0K4okhIQzL33U5Ad8?utm_source=generator&theme=0",
         "I'm obsessed with the idea that one day it breaks up, 'Cause after that, I know I'll never be as _______ __ ____": "https://open.spotify.com/embed/track/4bqDgEc3V9o0gle8mvgCgN?utm_source=generator&theme=0"
     }
+
+    const spotifyToTitles = {
+        'https://open.spotify.com/embed/track/4icnlpI5IbZcRO9mpixVVW?utm_source=generator&theme=0': 'Where You Are',
+        'https://open.spotify.com/embed/track/3DrkYwyu8QqZQ05r2gGqHi?utm_source=generator&theme=0': 'Mosquito',
+        'https://open.spotify.com/embed/track/5hjhaH0vwtpftiLtF3veZp?utm_source=generator&theme=0': 'Ophelia',
+        'https://open.spotify.com/embed/track/5rs8M4TwPZEOMXxw3XAo0n?utm_source=generator&theme=0': 'Internet Baby',
+        'https://open.spotify.com/embed/track/0z3YYobsavHguLTgqg5GC1?utm_source=generator&theme=0': 'Picture In My Mind',
+        'https://open.spotify.com/embed/track/5UBfLYnkImP1RKMMy4TGs8?utm_source=generator&theme=0': 'Stateside',
+        'https://open.spotify.com/embed/track/0DwVfCYLrVXgvejYbWwZAd?utm_source=generator&theme=0': 'Break It Off',
+        'https://open.spotify.com/embed/track/5QCfOMH5K7bS4dH7H7PNeI?utm_source=generator&theme=0': 'Tonight',
+        'https://open.spotify.com/embed/track/3NanY0K4okhIQzL33U5Ad8?utm_source=generator&theme=0': 'Boy\'s A Liar',
+        'https://open.spotify.com/embed/track/4bqDgEc3V9o0gle8mvgCgN?utm_source=generator&theme=0': "Capable of Love"
+    }
     
     const lyricsArray = Object.keys(lyricsToSpotify)
     const currentLyric = lyricsArray[cardNum]
     const currentSpotifyEmbed = lyricsToSpotify[currentLyric]
 
-    useEffect(() => {
-        if (isAnimating && animationType) {
-            setCurrentAnimation(animationType)
-            const timer = setTimeout(() => {
-                setCurrentAnimation('')
-            }, 600) // Animation duration
-            return () => clearTimeout(timer)
+    const handleGuessCheck = () => {
+        const expectedTitle = spotifyToTitles[currentSpotifyEmbed] || ''
+        const normalizedGuess = guessInput.trim().toLowerCase()
+        const normalizedExpected = expectedTitle.trim().toLowerCase()
+
+        if (!normalizedGuess) {
+            setGuessFeedback('not correct!')
+            return
         }
-    }, [isAnimating, animationType])
+
+        setGuessFeedback(normalizedGuess === normalizedExpected ? 'Correct!' : 'not correct!')
+    }
+
+    const currentAnimation = isAnimating && animationType ? animationType : ''
     
     return(
         <div className={`card ${currentAnimation}`}>
             {!showAnswer ? (
-                <h3 className='lyrics'> 🎶 {currentLyric} 🎶</h3>
+                <>
+                    <h3 className='lyrics'> 🎶 {currentLyric} 🎶</h3>
+                    {guessFeedback && <p className='guess-feedback'>{guessFeedback}</p>}
+                    <div className='guess-input-row'>
+                        <input
+                            type='text'
+                            className='guess-input'
+                            value={guessInput}
+                            onChange={(e) => setGuessInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleGuessCheck()
+                                }
+                            }}
+                            placeholder='Type song title'
+                            aria-label='Guess the song title'
+                        />
+                        <button type='button' onClick={handleGuessCheck}>Check</button>
+                    </div>
+                </>
             ) : (
                 <iframe 
                     data-testid="embed-iframe" 
